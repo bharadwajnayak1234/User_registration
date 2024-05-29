@@ -43,18 +43,7 @@ def register(request):
 
 
 
-# def user_login(request):
-#     if request.method == "POST":
-#         username =request.POST.get("un")
-#         password =request.POST.get("pw")
-#         user = authenticate(username=username ,password =password)
-#         if user is not None:
-#             login(request,user)
-#             request.session['username'] =username
-#             return render(request ,"home.html",{'user':user})
-#         else:    
-#             return HttpResponse('Invalid Data')      
-#     return render(request,"user_login.html")
+
 def user_login(request: HttpRequest) -> HttpResponse:
     """
     Authenticate a user based on username and password.
@@ -136,47 +125,3 @@ def otp(request):
 
 
 
-def forgetpassword(request):
-    if request.method == 'POST':
-        un = request.POST.get('username')
-        request.session['un']=un
-        UO = User.objects.get(username=un)
-        if UO:
-            otp = randint(100000, 999999)
-            request.session['otp'] = otp
-            request.session['username'] = un
-
-            send_mail(
-            'Password Reset Request',
-            f'Your OTP for password reset is: {otp}',
-            'bharadwajnayak473@gmail.com',  # Replace with your email
-            [UO.email],
-            fail_silently=False
-            )
-            return render(request,'forgetpasswordotp.html')
-        return HttpResponse('Invalid Email')
-    return render(request, 'forgetpassword.html')
-
-def forgetpasswordotp(request):
-    if request.method == "POST":
-        UOTP =request.POST.get('otp')
-        GOTP =request.session.get('otp')
-        if UOTP == str(GOTP):
-            return render(request ,'resetpassword.html')
-        return HttpResponse('invalid Otp')
-    return render(request ,'forgetpasswordotp.html')
-
-
-
-
-def resetpassword(request):
-    if request.method == 'POST':
-        pw = request.POST.get('pw')
-        cpw = request.POST.get('cpw')
-        if pw == cpw:
-            un = request.session.get('username')
-            UO = User.objects.get(username=un)
-            UO.set_password(pw)
-            UO.save()
-            return render(request, 'user_login.html')
-        return HttpResponse('Password doesnot mathcing')
