@@ -6,7 +6,7 @@
 
 {% block body %}
  <center>
-    <form  method="post">
+    <form action="{% url 'user_login' %}" method="post">
         {% csrf_token %}
         <label for="un" >User name:</label>
         <input type="text" name="un" id="un"><br><br>
@@ -14,6 +14,7 @@
         <input type="text" name="pw" id="pw"><br><br>
 
         <button type="submit" value="login">Login</button>
+        <a href="{% url 'forgetpassword' %}">forgetpassword</a>
     </form>
  </center> 
 {% endblock body %}
