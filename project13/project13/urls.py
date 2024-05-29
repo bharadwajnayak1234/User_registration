@@ -24,8 +24,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("register/",register,name='register'),
     path('user_login/',user_login,name='user_login'),
+    path('user_logout/',user_logout,name='user_logout'),
     path("user_profile/",user_profile,name='user_profile'),
-    path('',home,name='home')
+    path('changepassword/',changepassword,name='changepassword'),
+    path('forgetpassword/', forgetpassword, name='forgetpassword'),
+    path('forgetpasswordotp/', forgetpasswordotp, name='forgetpasswordotp'),
+    path('resetpassword/', resetpassword, name='resetpassword'),
+    path('',home,name='home'),
+    path('otp/',otp,name='otp'),
+
 
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
